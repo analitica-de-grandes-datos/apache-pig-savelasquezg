@@ -8,13 +8,13 @@
 fs -rm -f -r output;
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
--- Cargo en la bolsa data los registros
+-- Cargo en la bolsa data
 data = LOAD 'data.tsv' using PigStorage('\t') AS (letra:CHARARRAY, fecha:CHARARRAY, numero:INT);
--- Ordeno los registros por la letra de la primera columna
+-- Ordeno los registros 
 sort = ORDER data BY letra;
--- Agrupo los registros por letra
+-- Agrupo los registros 
 letras = GROUP sort BY letra;
--- Y hago un conteo por letra
+-- Cuento por letra
 resultado = FOREACH letras GENERATE group, COUNT(sort);
--- Almaceno el resultado en un archivo
+-- Almaceno el resultado
 STORE resultado INTO './output' using PigStorage('\t');
