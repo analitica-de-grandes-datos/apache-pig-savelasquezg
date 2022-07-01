@@ -31,10 +31,10 @@ data_table = LOAD 'data.csv' USING PigStorage(',')
         Quantity:int
     );
 -- Se filtran los apellidos y se genera su longitud
-specific_columns = FOREACH data_table GENERATE Lastname , SIZE(Lastname) AS tamano;
+A = FOREACH data_table GENERATE Lastname , SIZE(Lastname) AS tamano;
 -- Se ordena por longitud y por apellido
-columns_order = ORDER specific_columns BY tamano desc, Lastname 
+B = ORDER A BY tamano desc, Lastname;
 -- Y se imprimen los primeros 5 registros
-limit_output = LIMIT columns_order 5;
+C = LIMIT B 5;
 -- Almaceno el resultado en un archivo
-STORE limit_output INTO 'output' USING PigStorage(',');
+STORE C INTO 'output' USING PigStorage(',');
