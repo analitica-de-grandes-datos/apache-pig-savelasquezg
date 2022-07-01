@@ -24,7 +24,7 @@ A = LOAD 'data.csv' USING PigStorage(',') AS (Id:int, Name:chararray, Lastname:c
 
 B = FOREACH A GENERATE Name, Color;
 C = FILTER B BY color == 'blue' AND STARTSWITH(Name,'Z');
-D = FOREACH filter_rows GENERATE CONCAT(Name,' ',Color);
+D = FOREACH C GENERATE CONCAT(Name,' ',Color);
 
 STORE D INTO 'output' USING PigStorage(',');
 
