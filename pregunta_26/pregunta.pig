@@ -21,3 +21,11 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+-- Se cargan los datos en una bolsa
+A = LOAD './data.csv' using PigStorage(',') AS (Id:int,  Name:chararray, Lastname:chararray,   Date:chararray,  Color:chararray, Quantity:int);
+-- Se filtra
+B = FILTER A BY SUBSTRING(Name,0,1) >= 'M';
+-- Se extraen los campos con los nombres
+C = FOREACH B GENERATE Name;
+-- Almaceno el resultado en un archivo
+STORE C INTO 'output/' using PigStorage(',');
