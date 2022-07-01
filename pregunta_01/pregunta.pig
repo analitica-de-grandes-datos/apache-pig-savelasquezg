@@ -9,12 +9,9 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
-data = LOAD './data.tsv' using PigStorage('\t') AS (letra:CHARARRAY, fecha:CHARARRAY, numero:INT);
 
-sort = ORDER data BY letra;
+A = LOAD './data.tsv' AS (letter:chararray, date:chararray, amount:int);
+B = GROUP A BY letter;
+C = FOREACH B GENERATE group, COUNT(A);
 
-letras = GROUP sort BY letra;
-
-resultado = FOREACH letras GENERATE group, COUNT(sort);
-
-STORE resultado INTO './output' using PigStorage('\t');
+STORE C INTO 'output/' using PigStorage(',');
