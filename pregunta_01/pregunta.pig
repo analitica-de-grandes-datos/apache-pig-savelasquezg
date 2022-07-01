@@ -8,10 +8,12 @@ evaluación, pig sera eejcutado ejecutado en modo local:
 $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
-
+-- -- Cargo en la bolsa
 
 A = LOAD './data.tsv' AS (letter:chararray, date:chararray, amount:int);
+-- Agrupo
 B = GROUP A BY letter;
+--Cuento
 C = FOREACH B GENERATE group, COUNT(A);
-
+--Almaceno
 STORE C INTO 'output/' using PigStorage(',');
