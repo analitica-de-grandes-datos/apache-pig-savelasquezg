@@ -22,4 +22,10 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
-
+-- Se cargan los datos en una bolsa
+A = LOAD './data.csv' using PigStorage(',') AS (Id:int,  Name:chararray, Lastname:chararray,   Date:chararray,  Color:chararray, Quantity:int);
+-- Se filtra
+B = FOREACH A GENERATE SUBSTRING(Date,0,4), SUBSTRING(Date,2,4);
+DUMP B;
+-- Almaceno el resultado en un archivo
+STORE B INTO 'output/' using PigStorage(',') ;
