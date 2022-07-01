@@ -19,7 +19,7 @@ $ pig -x local -f pregunta.pig
 --Cargar
 A = LOAD 'data.tsv'
     AS (fl1:CHARARRAY, fl2:BAG{t: TUPLE(p:CHARARRAY)}, fl3:MAP[]);
-Fltro
+--Filtro
 B = FOREACH A GENERATE fl2, fl3;
 C = FOREACH B GENERATE FLATTEN(fl2),FLATTEN(fl3);
 -- Agrupar
