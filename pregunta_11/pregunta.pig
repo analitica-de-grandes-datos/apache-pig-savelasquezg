@@ -32,4 +32,11 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
-
+-- Se cargan los datos en una bolsa
+A = LOAD './data.csv' using PigStorage(',') AS (id:int,  Name:chararray, Lastname:chararray,   Date:chararray,  Color:chararray, Quantity:int);
+-- Se filtran los apellidos y se genera su longitud
+B = FOREACH A GENERATE UCFIRST(Lastname), UPPER(Lastname), LOWER(Lastname);
+-- Se ordenan los registros
+C = ORDER B BY $0;
+-- Almaceno el resultado en un archivo
+STORE C INTO 'output/' using PigStorage(',');
