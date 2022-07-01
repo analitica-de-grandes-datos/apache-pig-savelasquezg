@@ -14,3 +14,11 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+-- Se cargan los datos en una bolsa
+A = LOAD './data.tsv' AS (letter:chararray, setTuplesLetters:bag{}, arrayLetters:map[]);
+-- Se toma la letra de la primera columna, y el número de registros de las columnas 2 y 3
+B = FOREACH A GENERATE letter, (int)COUNT(setTuplesLetters) AS totalCol2 , (int) SIZE(arrayLetters) AS totalCol3;
+-- Se ordenan los registros por cada columna
+C = ORDER B BY letter, totalCol2, totalCol3;
+-- Almaceno el resultado en un archivo
+STORE C INTO 'output/' using PigStorage(',');
