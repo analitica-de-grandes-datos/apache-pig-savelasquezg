@@ -13,8 +13,8 @@ $ pig -x local -f pregunta.pig
      >>> Escriba el codigo del mapper a partir de este punto <<<
 */
 -- -- Cargo en la bolsa
-data = LOAD 'data.tsv' using PigStorage('\t') AS (letra:CHARARRAY, fecha:CHARARRAY, numero:INT);
--- Ordeno los registros por letra y por el número de la tercera columna
-sort = ORDER data BY letra, numero;
+A = LOAD './data.tsv' AS (letter:chararray, date:chararray, amount:int);
+-- Ordeno 
+B = ORDER A BY letter , amount;
 -- Almaceno el resultado
-STORE sort INTO './output' using PigStorage('\t');
+STORE B INTO 'output/' using PigStorage(',');
