@@ -24,7 +24,7 @@ A = LOAD './data.csv' using PigStorage(',') AS (Id:int,  Name:chararray, Lastnam
 -- Se filtra por los nombres que empiecen por 'Z' y colores que empiecen por 'B'
 B = FILTER A BY (Name matches 'K.*') or (Color matches 'blue');
 -- Se extraen los campos con los nombres y colores
-C = FOREACH B GENERATE Nname, Color;
+C = FOREACH B GENERATE Name, Color;
 -- Almaceno el resultado en un archivo
 STORE C INTO 'output/' using PigStorage(',');
 
