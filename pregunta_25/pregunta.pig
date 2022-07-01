@@ -19,4 +19,9 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
-
+-- Se cargan los datos en una bolsa
+A = LOAD 'data.csv' USING PigStorage(',') AS (Id:int, Name:chararray, Lastname:chararray, Date:datetime, Color:chararray, Quantity:int);
+-- Se extraen los campos con los colores
+B = FOREACH A GENERATE INDEXOF(Name,'a');
+-- Almaceno el resultado en un archivo
+STORE B INTO 'output' USING PigStorage(',');

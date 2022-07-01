@@ -33,4 +33,15 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+-- Se cargan los datos en una bolsa
+A = LOAD './data.csv' using PigStorage(',') AS (Id:int,  Name:chararray, Lastname:chararray,   Date:chararray,  Color:chararray, Quantity:int);
+-- Se extrae
+B = FOREACH A GENERATE Date,  LOWER(ToString(ToDate(Date,'yyyy-MM-dd', 'America/Bogota'),'MMM')),  ToString(ToDate(Date,'yyyy-MM-dd', '-05:00'),'MM'), GetMonth(ToDate(Date));
+C = FOREACH B GENERATE $0, REPLACE($1,'apr','abr'), $2, $3;
+D = FOREACH C GENERATE $0, REPLACE($1,'jan','ene'), $2, $3;
+E = FOREACH D GENERATE $0, REPLACE($1,'dec','dic'), $2, $3;
+F = FOREACH E GENERATE $0, REPLACE($1,'aug','ago'), $2, $3;
+DUMP B;
+-- Almaceno el resultado en un archivo
+STORE F INTO 'output/' using PigStorage(',');
 

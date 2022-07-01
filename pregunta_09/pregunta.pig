@@ -31,4 +31,9 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
-
+-- Se cargan los datos en una bolsa
+A = LOAD './data.csv' using PigStorage(',') AS (id:int,  name:chararray, lastname:chararray,   date:chararray,  color:chararray, other:int);
+-- Se filtra el archivo por nombre y apellido
+B = FOREACH A GENERATE CONCAT(name, '@', lastname);
+-- Almaceno el resultado en un archivo
+STORE B INTO 'output/' using PigStorage(',');

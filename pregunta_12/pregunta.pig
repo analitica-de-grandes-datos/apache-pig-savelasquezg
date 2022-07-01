@@ -27,3 +27,11 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+-- Se cargan los datos en una bolsa
+A = LOAD './data.csv' using PigStorage(',') AS (Id:int,  Name:chararray, Lastname:chararray,   Date:chararray,  Color:chararray, Quantity:int);
+-- Se extraen los campos con los apellidos
+B = FILTER A BY Lastname matches '[D-K].*' ;
+-- Y se hace el respectivo filtro
+C = FOREACH B GENERATE Lastname;
+-- Almaceno el resultado en un archivo
+STORE C INTO 'output/' using PigStorage(',');

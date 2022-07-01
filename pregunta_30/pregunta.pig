@@ -34,3 +34,22 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+-- Se cargan los datos en una bolsa
+A = LOAD './data.csv' using PigStorage(',') AS (Id:int,  Name:chararray, Lastname:chararray,   Date:chararray,  Color:chararray, Quantity:int);
+
+-- Se extraen los campos 
+B = FOREACH A GENERATE Date,  ToString(ToDate(Date,'yyyy-MM-dd',
+    'America/Bogota'),'dd'), ToString(ToDate(Date,'yyyy-MM-dd',
+    'America/Bogota'),'d'), ToString(ToDate(Date,'yyyy-MM-dd',
+    'America/Bogota'),'EEEE');
+C = FOREACH B GENERATE $0, REPLACE($3,'Monday','lunes'), $1, $2;
+
+D = FOREACH C GENERATE $0, REPLACE($1,'Tuesday','martes'), $2, $3;
+E = FOREACH D GENERATE $0, REPLACE($1,'Wednesday','miercoles'), $2, $3;
+F = FOREACH E GENERATE $0, REPLACE($1,'Thursday','jueves'), $2, $3;
+G = FOREACH F GENERATE $0, REPLACE($1,'Friday','viernes'), $2, $3;
+H = FOREACH G GENERATE $0, REPLACE($1,'Saturday','sabado'), $2, $3;
+I = FOREACH H GENERATE $0, REPLACE($1,'Sunday','domingo'), $2, $3;
+J = FOREACH I  GENERATE $0,$2,$3, SUBSTRING($1, 0, 3),$1;
+-- Almaceno el resultado en un archivo
+STORE J  INTO 'output' USING PigStorage(',');
