@@ -18,13 +18,13 @@ evaluación, pig sera eejcutado ejecutado en modo local:
 
 $ pig -x local -f pregunta.pig
 
-
+  /* >>> Escriba su respuesta a partir de este punto <<< */
 -- Se cargan los datos en una bolsa
 A = LOAD 'data.csv' USING PigStorage(',') AS (Id:int, Name:chararray, Lastname:chararray, Date:datetime, Color:chararray, Quantity:int);
 -- Se extraen los campos con los nombres y colores
 B = FOREACH Name GENERATE Name, Color;
 -- Se filtra 
-C = FILTER A BY color == 'blue' AND STARTSWITH(Name,'Z');
+C = FILTER A BY Color == 'blue' AND STARTSWITH(Name,'Z');
 D = FOREACH C GENERATE CONCAT(Name,' ',Color);
 -- Almaceno el resultado en un archivo
 STORE D INTO 'output' USING PigStorage(',');
